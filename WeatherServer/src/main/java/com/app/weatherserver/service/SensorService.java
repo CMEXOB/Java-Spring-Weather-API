@@ -20,7 +20,7 @@ public class SensorService {
 
     public WeatherServerResponse registerSensor(String sensorName) {
         if(sensorRepository.existsByName(sensorName)){
-            throw new IllegalArgumentException (String.format("Sensor with name \"%s\" already exist", sensorName));
+            throw new IllegalArgumentException (String.format("Sensor with name '%s' already exist", sensorName));
         }
         else {
             Sensor sensor = new Sensor();
