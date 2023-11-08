@@ -3,6 +3,8 @@ package com.app.weatherserver.repository;
 import com.app.weatherserver.entity.Sensor;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface SensorRepository extends JpaRepository<Sensor, String> {
+import java.util.UUID;
+
+public interface SensorRepository extends JpaRepository<Sensor, UUID> {
     boolean existsByName(String name);
 }
