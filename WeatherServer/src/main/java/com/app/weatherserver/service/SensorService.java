@@ -29,6 +29,6 @@ public class SensorService {
     }
 
     public List<Sensor> getSensors() {
-        return sensorRepository.findAll();
+        return sensorRepository.findAllByIsActiveIsTrue();
     }
 }
