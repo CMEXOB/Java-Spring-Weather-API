@@ -50,7 +50,7 @@ public class WeatherService {
 
     public List<Weather> getCurrentWeatherFromSensor() {
         Time time = Time.valueOf(LocalTime.now());
-        time.setTime(time.getTime() - 6000);
+        time.setTime(time.getTime() - 60000);
         return weatherRepository.findCurrentWeatherFromSensor(time);
     }
 
