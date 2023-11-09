@@ -1,7 +1,7 @@
 package com.app.weatherserver.controller;
 
 import com.app.weatherserver.dto.RegistrationRequest;
-import com.app.weatherserver.dto.WeatherServerResponse;
+import com.app.weatherserver.dto.RegistrationResponse;
 import com.app.weatherserver.entity.Sensor;
 import com.app.weatherserver.service.SensorService;
 import jakarta.validation.Valid;
@@ -21,8 +21,8 @@ public class SensorController {
     }
 
     @PostMapping("registration")
-    public ResponseEntity<WeatherServerResponse> registerSensor(@Valid @RequestBody RegistrationRequest request){
-        WeatherServerResponse response = sensorService.registerSensor(request.getName());
+    public ResponseEntity<RegistrationResponse> registerSensor(@Valid @RequestBody RegistrationRequest request){
+        RegistrationResponse response = (RegistrationResponse) sensorService.registerSensor(request.getName());
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
     @GetMapping

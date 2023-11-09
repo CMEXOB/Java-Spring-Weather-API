@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Getter
 @Setter
-public class RegistrationResponse implements WeatherServerResponse {
+public class RegistrationResponse {
     private UUID key;
 
     public RegistrationResponse(UUID key) {

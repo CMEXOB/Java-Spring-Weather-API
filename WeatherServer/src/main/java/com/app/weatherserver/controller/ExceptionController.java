@@ -1,7 +1,6 @@
 package com.app.weatherserver.controller;
 
-import com.app.weatherserver.dto.ErrorResponse;
-import com.app.weatherserver.dto.WeatherServerResponse;
+import com.app.weatherserver.dto.ApiErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -15,17 +14,17 @@ import java.util.NoSuchElementException;
 public class ExceptionController {
 
     @ExceptionHandler( MethodArgumentNotValidException.class)
-    protected ResponseEntity<WeatherServerResponse> handleWrongValidationException(MethodArgumentNotValidException objException) {
-        ErrorResponse response = new ErrorResponse();
+    protected ResponseEntity<ApiErrorResponse> handleWrongValidationException(MethodArgumentNotValidException objException) {
+        ApiErrorResponse response = new ApiErrorResponse();
         objException.getBindingResult().getAllErrors().forEach((error) -> {
             response.addError(error.getDefaultMessage());
         });
         return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler({IllegalAccessError.class, NoSuchElementException.class})
-    protected ResponseEntity<WeatherServerResponse> handleEntityExistException(Exception objException) {
-        ErrorResponse response = new ErrorResponse();
+    @ExceptionHandler({IllegalArgumentException.class, NoSuchElementException.class})
+    protected ResponseEntity<ApiErrorResponse> handleEntityExistException(Exception objException) {
+        ApiErrorResponse response = new ApiErrorResponse();
         response.addError(objException.getLocalizedMessage());
         return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
     }

@@ -8,13 +8,13 @@ import java.util.List;
 
 @Getter
 @Setter
-public class ErrorResponse implements WeatherServerResponse {
+public class ApiErrorResponse {
     private List<String> errors;
 
-    public ErrorResponse() {
+    public ApiErrorResponse() {
         errors = new ArrayList<>();
     }
-    public ErrorResponse(String error) {
+    public ApiErrorResponse(String error) {
         errors = new ArrayList<>();
         errors.add(error);
     }

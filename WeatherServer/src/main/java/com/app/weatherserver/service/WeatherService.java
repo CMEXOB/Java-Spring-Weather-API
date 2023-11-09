@@ -25,6 +25,9 @@ public class WeatherService {
     public void measureWeatherFromSensor(UUID key, double value, boolean raining){
         Optional<Sensor> sensor = sensorRepository.findById(key);
         if(sensor.isPresent()){
+            sensor.get().setActive(true);
+            sensorRepository.save(sensor.get());
+
             Weather weather = new Weather();
             weather.setValue(value);
             weather.setRaining(raining);
