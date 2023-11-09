@@ -1,8 +1,6 @@
 package com.app.weatherserver.service;
 
-import com.app.weatherserver.dto.ErrorResponse;
 import com.app.weatherserver.dto.RegistrationResponse;
-import com.app.weatherserver.dto.WeatherServerResponse;
 import com.app.weatherserver.entity.Sensor;
 import com.app.weatherserver.repository.SensorRepository;
 import org.springframework.stereotype.Service;
@@ -18,7 +16,7 @@ public class SensorService {
         this.sensorRepository = sensorRepository;
     }
 
-    public WeatherServerResponse registerSensor(String sensorName) {
+    public RegistrationResponse registerSensor(String sensorName) {
         if(sensorRepository.existsByName(sensorName)){
             throw new IllegalArgumentException (String.format("Sensor with name '%s' already exist", sensorName));
         }
