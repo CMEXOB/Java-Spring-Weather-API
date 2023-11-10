@@ -14,7 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.UUID;
 
 /**
- * Service to shut down application
+ * Service for sending requests to weather server
  *
  * @author Skripko Egor
  */
@@ -40,10 +40,12 @@ public class DataSenderService {
     private UUID key;
     private final WeatherDataCollector dataCollector;
     private final ShutdownService shutdownService;
+    private final ExceptionConverter exceptionConverter;
 
-    public DataSenderService(WeatherDataCollector dataCollector, ShutdownService shutdownService) {
+    public DataSenderService(WeatherDataCollector dataCollector, ShutdownService shutdownService, ExceptionConverter exceptionConverter) {
         this.dataCollector = dataCollector;
         this.shutdownService = shutdownService;
+        this.exceptionConverter = exceptionConverter;
     }
 
     /**
@@ -63,7 +65,10 @@ public class DataSenderService {
             ResponseEntity<RegistrationResponse> responseEntity = restTemplate.postForEntity(String.format("%s/sensors/registration", serverIp),request, RegistrationResponse.class);
             key = responseEntity.getBody().getKey();
         }
-        catch (ResourceAccessException | HttpClientErrorException | NullPointerException e){
+        catch (HttpClientErrorException e){
+            throw exceptionConverter.convertErrorResponseToException(e);
+        }
+        catch (ResourceAccessException e){
             throw new Exception(e.getMessage());
         }
     }
@@ -90,7 +95,7 @@ public class DataSenderService {
                 throw new Exception(e.getMessage());
             }
             catch (HttpClientErrorException e){
-                throw new Exception(e.getMessage());
+                throw exceptionConverter.convertErrorResponseToException(e);
             }
         }
     }
