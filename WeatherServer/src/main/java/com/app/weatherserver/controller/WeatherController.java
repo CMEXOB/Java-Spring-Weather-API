@@ -2,6 +2,7 @@ package com.app.weatherserver.controller;
 
 import com.app.weatherserver.dto.ApiErrorResponse;
 import com.app.weatherserver.dto.MeasureWeatherRequest;
+import com.app.weatherserver.entity.Sensor;
 import com.app.weatherserver.entity.Weather;
 import com.app.weatherserver.service.WeatherService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -18,6 +19,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Controller that providing endpoints for interaction with {@link Weather}
+ *
+ * @author Skripko Egor
+ */
 @RestController
 @RequestMapping("/sensors")
 public class WeatherController {

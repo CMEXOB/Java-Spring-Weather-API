@@ -17,6 +17,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Controller that providing endpoints for interaction with {@link Sensor}
+ *
+ * @author Skripko Egor
+ */
 @RestController
 @RequestMapping("/sensors")
 public class SensorController {

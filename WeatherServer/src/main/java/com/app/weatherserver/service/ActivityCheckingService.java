@@ -12,6 +12,11 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Service for checking {@link Sensor} activity in system
+ *
+ * @author Skripko Egor
+ */
 @Service
 public class ActivityCheckingService {
     private final WeatherRepository weatherRepository;
@@ -22,6 +27,9 @@ public class ActivityCheckingService {
         this.sensorRepository = sensorRepository;
     }
 
+    /**
+     * Checking periodically all sensors for activity.
+     */
     @Scheduled(fixedDelay  = 1000)
     public void scheduleFixedRateTask() {
         Time time = Time.valueOf(LocalTime.now());

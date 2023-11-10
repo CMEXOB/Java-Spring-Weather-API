@@ -7,6 +7,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Service to register and get information about {@link Sensor} in system
+ *
+ * @author Skripko Egor
+ */
 @Service
 public class SensorService {
 
@@ -16,6 +21,13 @@ public class SensorService {
         this.sensorRepository = sensorRepository;
     }
 
+    /**
+     * Registers new {@link Sensor} in system
+     *
+     * @param sensorName - given name, must not be {@literal null}
+     * @return {@link RegistrationResponse}
+     * @throws IllegalArgumentException - If {@link Sensor} with given name already exist
+     */
     public RegistrationResponse registerSensor(String sensorName) {
         if(sensorRepository.existsByName(sensorName)){
             throw new IllegalArgumentException (String.format("Sensor with name '%s' already exist", sensorName));
@@ -28,6 +40,11 @@ public class SensorService {
         }
     }
 
+    /**
+     * Return list of active {@link Sensor}
+     *
+     * @return <code>List</code> of {@link Sensor}
+     */
     public List<Sensor> getSensors() {
         return sensorRepository.findAllByIsActiveIsTrue();
     }
