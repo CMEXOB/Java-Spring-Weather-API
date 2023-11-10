@@ -13,6 +13,11 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * Service to save sensor weather measure and get information about {@link Weather} in system
+ *
+ * @author Skripko Egor
+ */
 @Service
 public class WeatherService {
     private final WeatherRepository weatherRepository;
@@ -22,6 +27,14 @@ public class WeatherService {
         this.weatherRepository = weatherRepository;
         this.sensorRepository = sensorRepository;
     }
+
+    /**
+     * Save new sensor weather measure to database. Update sensor active
+     *
+     * @param key - {@link Sensor} UUID
+     * @param value -  new {@link Weather} value
+     * @param raining - new {@link Weather} isRaining
+     */
     public void measureWeatherFromSensor(UUID key, double value, boolean raining){
         Optional<Sensor> sensor = sensorRepository.findById(key);
         if(sensor.isPresent()){
@@ -41,6 +54,12 @@ public class WeatherService {
 
     }
 
+    /**
+     * Return {@link Weather} which belong to {@link Sensor} with given UUID
+     *
+     * @param key - given {@link Sensor} UUID
+     * @return <code>List</code> of {@link Weather}
+     */
     public List<Weather> getWeatherFromSensor(UUID key){
         Optional<Sensor> sensor = sensorRepository.findById(key);
         if(sensor.isPresent()){
@@ -51,10 +70,15 @@ public class WeatherService {
         }
     }
 
+    /**
+     * Return {@link Weather} which time later that minute ago
+     *
+     * @return <code>List</code> of {@link Weather}
+     */
     public List<Weather> getCurrentWeatherFromSensor() {
         Time time = Time.valueOf(LocalTime.now());
         time.setTime(time.getTime() - 60000);
-        return weatherRepository.findCurrentWeatherFromSensor(time);
+        return weatherRepository.findWeatherLaterThatTime(time);
     }
 
 }
