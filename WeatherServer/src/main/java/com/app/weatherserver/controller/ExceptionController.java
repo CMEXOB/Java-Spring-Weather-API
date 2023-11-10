@@ -21,11 +21,9 @@ public class ExceptionController {
         });
         return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
     }
-
     @ExceptionHandler({IllegalArgumentException.class, NoSuchElementException.class})
     protected ResponseEntity<ApiErrorResponse> handleEntityExistException(Exception objException) {
-        ApiErrorResponse response = new ApiErrorResponse();
-        response.addError(objException.getLocalizedMessage());
-        return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
+        ApiErrorResponse response = new ApiErrorResponse(objException.getLocalizedMessage());
+        return new ResponseEntity<>(response,HttpStatus.CONFLICT);
     }
 }
