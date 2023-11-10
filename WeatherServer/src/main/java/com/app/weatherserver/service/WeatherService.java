@@ -45,7 +45,7 @@ public class WeatherService {
             weather.setValue(value);
             weather.setRaining(raining);
             weather.setTime(Time.valueOf(LocalTime.now()));
-            weather.setCreator(sensor.get());
+            weather.setSensor(sensor.get());
             weatherRepository.save(weather);
         }
         else {
@@ -63,7 +63,7 @@ public class WeatherService {
     public List<Weather> getWeatherFromSensor(UUID key){
         Optional<Sensor> sensor = sensorRepository.findById(key);
         if(sensor.isPresent()){
-            return weatherRepository.findWeatherFromSensor(sensor.get());
+            return weatherRepository.findWeatherBySensor(sensor.get());
         }
         else {
             throw new NoSuchElementException(String.format("Sensor with key '%s' don't exist", key));

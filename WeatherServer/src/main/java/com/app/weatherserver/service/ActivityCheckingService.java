@@ -11,6 +11,7 @@ import java.sql.Time;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Service for checking {@link Sensor} activity in system
@@ -33,16 +34,11 @@ public class ActivityCheckingService {
     @Scheduled(fixedDelay  = 1000)
     public void scheduleFixedRateTask() {
         Time time = Time.valueOf(LocalTime.now());
-        List<Sensor> sensors = sensorRepository.findAllByIsActiveIsTrue();
-        Optional<Weather> weather;
+        time.setTime(time.getTime() - 60000);
+        Set<Sensor> sensors = weatherRepository.findWeatherSensorWitchNeedDeactivated(time);
         for(Sensor sensor: sensors){
-            weather = weatherRepository.findWeatherByCreatorOrderByTimeDesc(sensor);
-            if(weather.isPresent()) {
-                if (time.getTime() - weather.get().getTime().getTime() > 60000) {
-                    sensor.setActive(false);
-                    sensorRepository.save(sensor);
-                }
-            }
+            sensor.setActive(false);
+            sensorRepository.save(sensor);
         }
     }
 }

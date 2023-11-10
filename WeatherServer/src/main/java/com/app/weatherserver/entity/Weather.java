@@ -50,5 +50,5 @@ public class Weather {
      */
     @ManyToOne
     @JoinColumn(name = "sensor_id")
-    private Sensor creator;
+    private Sensor sensor;
 }
