@@ -13,12 +13,30 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.UUID;
 
+/**
+ * Service to shut down application
+ *
+ * @author Skripko Egor
+ */
 @Service
 public class DataSenderService {
+    /**
+     * A value to represent weather server ip
+     * Takes from application.properties
+     */
     @Value("${weather.server.ip}")
     private String serverIp;
+
+    /**
+     * A value to represent weather sensor name
+     * Takes from application.properties
+     */
     @Value("${sensor.name}")
     private String name;
+
+    /**
+     * A value to represent weather sensor UUID
+     */
     private UUID key;
     private final WeatherDataCollector dataCollector;
     private final ShutdownService shutdownService;
@@ -28,6 +46,13 @@ public class DataSenderService {
         this.shutdownService = shutdownService;
     }
 
+    /**
+     * Send request to weather server to registration itself
+     * If sensor couldn't register then application shutdown
+     *
+     * @throws ResourceAccessException if server not start
+     * @throws HttpClientErrorException if sensor with given name already exist
+     */
     @PostConstruct
     public void registration() throws Exception {
         RestTemplate restTemplate = new RestTemplate();
@@ -43,6 +68,12 @@ public class DataSenderService {
         }
     }
 
+    /**
+     * Send every 3-15 seconds weather measures to weather server
+     *
+     * @throws ResourceAccessException if server shutdown
+     * @throws HttpClientErrorException if sensor with given key not exist
+     */
     @Scheduled(fixedDelayString = "#{new Double((T(java.lang.Math).random() * 4 + 1) * 3000).intValue()}")
     public void sendData() throws Exception {
         if(key!=null) {
